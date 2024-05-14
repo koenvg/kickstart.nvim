@@ -154,6 +154,10 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Enable folding via treesitter
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldlevel = 99
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -364,9 +368,7 @@ require('lazy').setup({
         -- pickers = {}
         defaults = {
           path_display = {
-            filename_first = {
-              reverse_directories = false,
-            },
+            truncate = true,
           },
         },
         extensions = {
@@ -588,6 +590,9 @@ require('lazy').setup({
         tsserver = {},
         --
 
+        graphql = {
+          legacy = true,
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -794,7 +799,8 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-day'
+      -- vim.cmd.colorscheme 'tokyonight-day'
+      vim.cmd.colorscheme 'tokyonight-night'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
