@@ -372,6 +372,16 @@ require('lazy').setup({
         --
         -- pickers = {}
         defaults = {
+          vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--smart-case',
+            '--hidden', -- <--- Optional: include hidden files
+          },
           path_display = {
             truncate = true,
           },
@@ -593,8 +603,8 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {
-          -- cmd = { '/Users/koen.vangeert/workspace/open_source/typescript-go/built/local/tsgo', 'lsp', '--stdio' },
-          cmd = { 'typescript-language-server', '--stdio' },
+          cmd = { '/Users/koen.vangeert/workspace/open_source/typescript-go/built/local/tsgo', 'lsp', '--stdio' },
+          -- cmd = { 'typescript-language-server', '--stdio' },
         },
         --
         gopls = {},
@@ -607,8 +617,6 @@ require('lazy').setup({
             -- })
           end,
         },
-
-        volar = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -931,6 +939,7 @@ require('lazy').setup({
   require 'custom.plugins.copilot',
   require 'custom.plugins.codecompanion',
   require 'custom.plugins.autotag',
+  require 'custom.plugins.lazygit',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

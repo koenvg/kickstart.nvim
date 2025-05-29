@@ -19,6 +19,17 @@ return {
     map('v', '<leader>ci', ':CodeCompanion<CR>', opts) -- Inline assistant on selection
 
     require('codecompanion').setup {
+      adapters = {
+        copilot = function()
+          return require('codecompanion.adapters').extend('copilot', {
+            schema = {
+              model = {
+                default = 'claude-3.7-sonnet',
+              },
+            },
+          })
+        end,
+      },
       strategies = {
         chat = {
           adapter = 'copilot',
