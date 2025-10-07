@@ -432,6 +432,21 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      vim.keymap.set('n', '<leader>su', function()
+        local path
+
+        -- Check if current buffer is an oil buffer
+        if vim.bo.filetype == 'oil' then
+          -- Get the current directory from oil
+          path = require('oil').get_current_dir()
+        else
+          -- Get the directory of the current buffer
+          path = vim.fn.expand '%:p:h'
+        end
+
+        builtin.live_grep { cwd = path }
+      end, { desc = '[S]earch current s[U]bdirectory' })
     end,
   },
 
