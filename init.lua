@@ -294,6 +294,8 @@ require('lazy').setup({
         { '<leader>d_', hidden = true },
         { '<leader>h', group = 'Git [H]unk' },
         { '<leader>h_', hidden = true },
+        { '<leader>o', group = '[O]pencode' },
+        { '<leader>o_', hidden = true },
         { '<leader>r', group = '[R]ename' },
         { '<leader>r_', hidden = true },
         { '<leader>s', group = '[S]earch' },
@@ -447,6 +449,9 @@ require('lazy').setup({
 
         builtin.live_grep { cwd = path }
       end, { desc = '[S]earch current s[U]bdirectory' })
+
+      -- Show git diff files (modified files) in Telescope
+      vim.keymap.set('n', '<leader>gd', builtin.git_status, { desc = '[G]it [D]iff files' })
     end,
   },
 
@@ -952,7 +957,7 @@ require('lazy').setup({
   require 'custom.plugins.oil',
   require 'custom.plugins.harpoon',
   require 'custom.plugins.copilot',
-  require 'custom.plugins.codecompanion',
+  require 'custom.plugins.opencode',
   require 'custom.plugins.autotag',
   require 'custom.plugins.lazygit',
 
