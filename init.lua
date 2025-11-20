@@ -960,6 +960,7 @@ require('lazy').setup({
   require 'custom.plugins.opencode',
   require 'custom.plugins.autotag',
   require 'custom.plugins.lazygit',
+  require 'custom.plugins.delta',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
