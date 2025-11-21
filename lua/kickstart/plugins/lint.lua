@@ -5,12 +5,22 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+      
+      -- Helper function to check if biome.json exists in project root
+      local function has_biome_config()
+        local root = vim.fn.getcwd()
+        return vim.fn.filereadable(root .. '/biome.json') == 1 or vim.fn.filereadable(root .. '/biome.jsonc') == 1
+      end
+      
+      -- Dynamically choose linter based on project config
+      local js_linters = has_biome_config() and {} or { 'eslint_d' }
+      
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        javascript = { 'eslint_d' },
-        typescript = { 'eslint_d' },
-        javascriptreact = { 'eslint_d' },
-        typescriptreact = { 'eslint_d' },
+        javascript = js_linters,
+        typescript = js_linters,
+        javascriptreact = js_linters,
+        typescriptreact = js_linters,
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
