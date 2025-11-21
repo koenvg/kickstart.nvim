@@ -4,7 +4,24 @@
 return {
   {
     'sindrets/diffview.nvim',
+    lazy = true,
+    cmd = {
+      'DiffviewOpen',
+      'DiffviewClose',
+      'DiffviewToggleFiles',
+      'DiffviewFocusFiles',
+      'DiffviewRefresh',
+      'DiffviewFileHistory',
+    },
     dependencies = { 'nvim-lua/plenary.nvim' },
+    -- Define keys to ensure they're always registered and trigger plugin load
+    keys = {
+      { '<leader>dv', '<cmd>DiffviewOpen<CR>', desc = '[D]iff [V]iew - open' },
+      { '<leader>dc', '<cmd>DiffviewClose<CR>', desc = '[D]iff [C]lose' },
+      { '<leader>dh', '<cmd>DiffviewFileHistory<CR>', desc = '[D]iff [H]istory all' },
+      { '<leader>df', '<cmd>DiffviewFileHistory %<CR>', desc = '[D]iff [F]ile history' },
+      { '<leader>dm', '<cmd>DiffviewOpen main<CR>', desc = '[D]iff vs [M]ain branch' },
+    },
     config = function()
       require('diffview').setup {
         enhanced_diff_hl = true, -- Better syntax highlighting
@@ -43,13 +60,6 @@ return {
           },
         },
       }
-
-      -- Keymaps (avoiding conflicts with existing gd)
-      vim.keymap.set('n', '<leader>dv', ':DiffviewOpen<CR>', { desc = '[D]iff [V]iew - open' })
-      vim.keymap.set('n', '<leader>dc', ':DiffviewClose<CR>', { desc = '[D]iff [C]lose' })
-      vim.keymap.set('n', '<leader>dh', ':DiffviewFileHistory<CR>', { desc = '[D]iff [H]istory all' })
-      vim.keymap.set('n', '<leader>df', ':DiffviewFileHistory %<CR>', { desc = '[D]iff [F]ile history' })
-      vim.keymap.set('n', '<leader>dm', ':DiffviewOpen main<CR>', { desc = '[D]iff vs [M]ain branch' })
     end,
   },
 }
