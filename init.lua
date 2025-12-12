@@ -735,30 +735,49 @@ require('lazy').setup({
         desc = '[F]ormat buffer',
       },
     },
-    opts = {
-      notify_on_error = false,
-      format_on_save = function(bufnr)
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
-        return {
-          timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-        }
-      end,
-      formatters_by_ft = {
+    config = function()
+      -- Helper function to check if biome.json exists in project root
+      local function has_biome_config()
+        local root = vim.fn.getcwd()
+        return vim.fn.filereadable(root .. '/biome.json') == 1 
+            or vim.fn.filereadable(root .. '/biome.jsonc') == 1
+      end
+
+      -- Determine formatters based on project config
+      local formatters_by_ft = {
         lua = { 'stylua' },
-        -- Biome for JS/TS (falls back to prettier if biome not available)
-        javascript = { 'biome', 'prettier' },
-        javascriptreact = { 'biome', 'prettier' },
-        typescript = { 'biome', 'prettier' },
-        typescriptreact = { 'biome', 'prettier' },
-        json = { 'biome', 'prettier' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-      },
-    },
+      }
+
+      -- For JS/TS/JSON: use only biome if config exists, otherwise only prettier
+      if has_biome_config() then
+        formatters_by_ft.javascript = { 'biome' }
+        formatters_by_ft.javascriptreact = { 'biome' }
+        formatters_by_ft.typescript = { 'biome' }
+        formatters_by_ft.typescriptreact = { 'biome' }
+        formatters_by_ft.json = { 'biome' }
+      else
+        formatters_by_ft.javascript = { 'prettier' }
+        formatters_by_ft.javascriptreact = { 'prettier' }
+        formatters_by_ft.typescript = { 'prettier' }
+        formatters_by_ft.typescriptreact = { 'prettier' }
+        formatters_by_ft.json = { 'prettier' }
+      end
+
+      require('conform').setup {
+        notify_on_error = false,
+        format_on_save = function(bufnr)
+          -- Disable "format_on_save lsp_fallback" for languages that don't
+          -- have a well standardized coding style. You can add additional
+          -- languages here or re-enable it for the disabled ones.
+          local disable_filetypes = { c = true, cpp = true }
+          return {
+            timeout_ms = 500,
+            lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+          }
+        end,
+        formatters_by_ft = formatters_by_ft,
+      }
+    end,
   },
 
   { -- Autocompletion
