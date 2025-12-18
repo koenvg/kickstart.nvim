@@ -622,29 +622,29 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {
-          cmd = { '/Users/koen.vangeert/workspace/open_source/typescript-go/built/local/tsgo', 'lsp', '--stdio' },
+          cmd = { 'tsgo', 'lsp', '--stdio' },
           -- cmd = { 'typescript-language-server', '--stdio' },
         },
         --
         gopls = {},
         --
         tailwindcss = {
-          filetypes = { 
-            'html', 
-            'css', 
-            'scss', 
-            'javascript', 
-            'javascriptreact', 
-            'typescript', 
-            'typescriptreact'
+          filetypes = {
+            'html',
+            'css',
+            'scss',
+            'javascript',
+            'javascriptreact',
+            'typescript',
+            'typescriptreact',
           },
           settings = {
             tailwindCSS = {
               experimental = {
                 classRegex = {
-                  { "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-                  { "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-                  { "cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                  { 'cva\\(([^)]*)\\)', '["\'`]([^"\'`]*).*?["\'`]' },
+                  { 'cx\\(([^)]*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+                  { 'cn\\(([^)]*)\\)', "(?:'|\"|`)([^']*)(?:'|\"|`)" },
                 },
               },
             },
@@ -658,13 +658,7 @@ require('lazy').setup({
         },
         --
         eslint = {
-          root_dir = require('lspconfig').util.root_pattern(
-            '.eslintrc',
-            '.eslintrc.js',
-            '.eslintrc.json',
-            'eslint.config.js',
-            'eslint.config.mjs'
-          ),
+          root_dir = require('lspconfig').util.root_pattern('.eslintrc', '.eslintrc.js', '.eslintrc.json', 'eslint.config.js', 'eslint.config.mjs'),
           single_file_support = false,
           on_attach = function(client, bufnr)
             -- vim.api.nvim_create_autocmd('BufWritePre', {
@@ -739,8 +733,7 @@ require('lazy').setup({
       -- Helper function to check if biome.json exists in project root
       local function has_biome_config()
         local root = vim.fn.getcwd()
-        return vim.fn.filereadable(root .. '/biome.json') == 1 
-            or vim.fn.filereadable(root .. '/biome.jsonc') == 1
+        return vim.fn.filereadable(root .. '/biome.json') == 1 or vim.fn.filereadable(root .. '/biome.jsonc') == 1
       end
 
       -- Determine formatters based on project config
